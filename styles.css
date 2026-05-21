@@ -489,6 +489,33 @@ body {
   color: var(--accent);
 }
 
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.footer-link-github:hover {
+  color: var(--accent-dark);
+}
+
+.footer-icon {
+  flex-shrink: 0;
+}
+
+.footer-meta-sep {
+  color: var(--ink-muted);
+}
+
 body.non-resident .resident-only,
 body.non-resident .resident-row {
   display: none !important;

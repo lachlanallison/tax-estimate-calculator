@@ -1,5 +1,8 @@
 {
   "siteUrl": "https://lachlanallison.github.io/tax-estimate-calculator",
   "siteName": "Australian Tax Estimate",
-  "repoName": "tax-estimate-calculator"
+  "repoName": "tax-estimate-calculator",
+  "githubUrl": "https://github.com/lachlanallison/tax-estimate-calculator",
+  "authorUrl": "https://lachlanallison.com",
+  "authorName": "Lachlan"
 }
