@@ -6,17 +6,27 @@
 ## App
 - /
 
-## Calculator sections
-- Tax year and residency (Australian resident or foreign resident)
-- Income: salary, interest, franked/unfranked dividends, rental, other
-- Deductions: work-related, gifts, cost of managing tax affairs, other
-- Medicare levy surcharge (MLS) inputs
-- Study loan (HELP / VSL / SSL / TSL / SFSS) compulsory repayment
-- Tax withheld and credits (PAYG, instalments)
-- Saved profiles and pro-rata income helper (local browser storage)
+## Features
+- Live estimate summary: refund or amount owing, total tax, income/deduction/rental breakdown (non-zero fields only)
+- Multiple rental properties with per-property expenses
+- Saved profiles (local browser storage) — switch, save, save as, new, delete
+- Prorata helper — scale part-year amounts to a full year, or add remaining pay periods
+- Resident and foreign resident brackets
 
-## Supported income years
-- 2022–23, 2023–24, 2024–25, 2025–26
+## Calculator sections
+- Tax year and residency
+- Income: salary, interest, franked/unfranked dividends, franking credits, government payments, capital gains, business, foreign income
+- Rental properties: gross rent, expenses, depreciation (net rent in income; expenses in deductions)
+- Deductions: myTax items D1–D15
+- Medicare levy, SAPTO, hospital cover, MLS family status
+- Study loan (HELP / VSL / SSL / TSL / SFSS) compulsory repayment
+- Tax withheld and credits: PAYG salary, other, instalments
+
+## Technical
+- Static site, no build step — HTML, CSS, vanilla JavaScript
+- Rates in js/rates.js (updated from ATO when income years change)
+- GitHub: https://github.com/lachlanallison/tax-estimate-calculator
+- Built by Lachlan Allison: https://lachlanallison.com/
 
 ## Disclaimer
 - Estimate only; not affiliated with the ATO
