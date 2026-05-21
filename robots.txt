@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lachlanallison.github.io/tax-estimate-calculator/sitemap.xml

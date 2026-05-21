@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Australian tax estimate">
+  <rect width="512" height="512" rx="108" fill="#0d0d0d"/>
+  <rect x="96" y="80" width="320" height="352" rx="48" fill="#1d4ed8"/>
+  <rect x="128" y="112" width="256" height="96" rx="24" fill="#eff6ff"/>
+  <text x="352" y="176" text-anchor="end" font-family="system-ui,sans-serif" font-size="88" font-weight="700" fill="#0d0d0d">$</text>
+  <rect x="128" y="240" width="64" height="48" rx="12" fill="#93c5fd"/>
+  <rect x="224" y="240" width="64" height="48" rx="12" fill="#93c5fd"/>
+  <rect x="320" y="240" width="64" height="48" rx="12" fill="#93c5fd"/>
+  <rect x="128" y="320" width="64" height="48" rx="12" fill="#dbeafe"/>
+  <rect x="224" y="320" width="64" height="48" rx="12" fill="#dbeafe"/>
+  <rect x="320" y="320" width="64" height="48" rx="12" fill="#ffffff"/>
+</svg>

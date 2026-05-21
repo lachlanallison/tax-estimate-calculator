@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Free Australian individual tax estimate calculator using ATO rates. Salary, investments, rental, deductions, Medicare levy, HELP, and PAYG withholding for 2022–23 to 2025–26."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Australian Tax Estimate" />
+    <meta name="theme-color" content="#0d0d0d" />
+    <meta name="color-scheme" content="light" />
+    <meta name="application-name" content="Australian Tax Estimate" />
+    <meta name="apple-mobile-web-app-title" content="Tax Estimate" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Australian Tax Estimate — salary, rental &amp; PAYG calculator</title>
+    <link rel="canonical" href="https://lachlanallison.github.io/tax-estimate-calculator/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+    <link rel="manifest" href="site.webmanifest" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Australian Tax Estimate" />
+    <meta property="og:title" content="Australian Tax Estimate — work out what you might owe or get back" />
+    <meta
+      property="og:description"
+      content="Estimate Australian individual income tax with ATO rates. Salary, rental, deductions, Medicare levy, HELP, and PAYG for 2022–23 to 2025–26."
+    />
+    <meta property="og:url" content="https://lachlanallison.github.io/tax-estimate-calculator/" />
+    <meta property="og:locale" content="en_AU" />
+    <meta property="og:image" content="https://lachlanallison.github.io/tax-estimate-calculator/og-image.png" />
+    <meta property="og:image:alt" content="Australian Tax Estimate calculator preview" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Australian Tax Estimate — work out what you might owe or get back" />
+    <meta
+      name="twitter:description"
+      content="Estimate Australian individual income tax with ATO rates. Salary, rental, deductions, Medicare levy, HELP, and PAYG."
+    />
+    <meta name="twitter:image" content="https://lachlanallison.github.io/tax-estimate-calculator/og-image.png" />
+    <meta name="twitter:image:alt" content="Australian Tax Estimate calculator preview" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="header-top">
+          <p class="eyebrow">Australian individual tax estimate</p>
+        </div>
+        <h1>Work out what you might owe — or get back.</h1>
+        <p class="lede">
+          Enter your income and deductions using the same kinds of amounts you’d put on your tax return.
+          Rates and thresholds come from the ATO for the year you select.
+        </p>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="summary-panel" aria-live="polite">
+        <div class="summary-inner">
+          <div class="refund-card refund-card-primary">
+            <p class="summary-label" id="refund-label">Estimated refund</p>
+            <p class="refund-amount" id="refund-amount">$0</p>
+            <p class="refund-hint" id="refund-hint">
+              Updates as you type. Enter tax withheld in
+              <a href="#payg-section">Tax withheld &amp; credits</a>.
+            </p>
+          </div>
+
+          <div class="summary-card">
+            <p class="summary-label">Estimated total tax</p>
+            <p class="summary-amount" id="total-tax">$0</p>
+            <p class="summary-meta" id="tax-year-label">2024–25 · Australian resident</p>
+            <p class="summary-updated" id="last-updated">Updated —</p>
+          </div>
+
+          <div id="summary-sections" class="summary-sections"></div>
+
+        </div>
+      </aside>
+
+      <form class="calculator-form" id="tax-form" novalidate>
+        <section class="form-section">
+          <h2>Tax year &amp; residency</h2>
+          <div class="field-grid two">
+            <label class="field">
+              <span>Income year</span>
+              <select name="taxYear" id="tax-year">
+                <option value="2025-26">2025–26</option>
+                <option value="2024-25" selected>2024–25</option>
+                <option value="2023-24">2023–24</option>
+                <option value="2022-23">2022–23</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Tax residency</span>
+              <select name="residency" id="residency">
+                <option value="resident">Australian resident</option>
+                <option value="non-resident">Foreign resident (non-resident)</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Income</h2>
+          <p class="section-note">Whole dollars only, as on your return.</p>
+          <div class="field-grid two">
+            <label class="field">
+              <span>Salary and wages (gross)</span>
+              <input type="text" data-money="true" name="salary" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Gross interest</span>
+              <input type="text" data-money="true" name="interest" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Franked dividends</span>
+              <input type="text" data-money="true" name="frankedDividends" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Unfranked dividends</span>
+              <input type="text" data-money="true" name="unfrankedDividends" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Franking credits</span>
+              <input type="text" data-money="true" name="frankingCredits" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+          </div>
+
+          <h3 class="subsection-title">Other income</h3>
+          <div class="field-grid two">
+            <label class="field">
+              <span>Government payments (taxable)</span>
+              <input type="text" data-money="true" name="governmentPayments" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Net capital gain</span>
+              <input type="text" data-money="true" name="capitalGains" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Business / sole trader (net)</span>
+              <input type="text" data-money="true" name="businessIncome" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Foreign income (taxable, AUD)</span>
+              <input type="text" data-money="true" name="foreignIncome" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+          </div>
+        </section>
+
+        <details class="form-section collapsible-section" id="rental-section" data-section="rental">
+          <summary class="section-summary">
+            <span class="section-summary-title">Rental properties</span>
+            <span class="section-summary-meta">Click to expand — add each property separately (ATO rental schedule)</span>
+          </summary>
+          <p class="section-note">
+            Combined net rent from all properties is included in income. Do not re-enter rental costs under
+            deductions.
+          </p>
+          <div id="rental-properties-list"></div>
+          <button type="button" class="btn-secondary" id="add-rental-property">+ Add another property</button>
+          <div id="rental-per-property-totals" class="rental-per-property-totals" aria-live="polite"></div>
+          <div class="computed-row">
+            <div class="field computed-field">
+              <span>Total expenses — all properties</span>
+              <output id="rental-expenses-total">$0</output>
+            </div>
+            <div class="field computed-field">
+              <span>Total net rental — all properties</span>
+              <output id="net-rental-display">$0</output>
+            </div>
+          </div>
+        </details>
+
+        <details class="form-section collapsible-section" id="deductions-section" data-section="deductions">
+          <summary class="section-summary">
+            <span class="section-summary-title">Deductions</span>
+            <span class="section-summary-meta">Click to expand — myTax items D1–D15</span>
+          </summary>
+          <p class="section-note">Whole dollars only. Values are saved and included in the estimate even when collapsed.</p>
+          <div class="field-grid two">
+            <label class="field">
+              <span>D1 — Work-related car expenses</span>
+              <input type="text" data-money="true" name="deductionCar" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D2 — Work-related travel expenses</span>
+              <input type="text" data-money="true" name="deductionTravel" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D3 — Clothing, laundry, dry-cleaning</span>
+              <input type="text" data-money="true" name="deductionClothing" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D4 — Self-education expenses</span>
+              <input type="text" data-money="true" name="deductionEducation" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D5 — Other work-related expenses</span>
+              <input type="text" data-money="true" name="deductionWorkOther" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D6 — Low-value pool deduction</span>
+              <input type="text" data-money="true" name="deductionLowValuePool" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D7 — Interest deductions</span>
+              <input type="text" data-money="true" name="deductionInterest" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D8 — Dividend deductions</span>
+              <input type="text" data-money="true" name="deductionDividends" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D9 — Gifts or donations</span>
+              <input type="text" data-money="true" name="deductionDonations" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D10 — Cost of managing tax affairs</span>
+              <input type="text" data-money="true" name="deductionTaxAffairs" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D11 — Foreign pension annuity fund (60c)</span>
+              <input type="text" data-money="true" name="deductionForeignPension" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D12 — Personal superannuation contributions</span>
+              <input type="text" data-money="true" name="deductionPersonalSuper" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D13 — Project pool deduction</span>
+              <input type="text" data-money="true" name="deductionProjectPool" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>D14 — Forestry managed investment scheme</span>
+              <input type="text" data-money="true" name="deductionForestry" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field span-2">
+              <span>D15 — Other deductions (e.g. income protection insurance)</span>
+              <input type="text" data-money="true" name="deductionOtherNec" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+          </div>
+        </details>
+
+        <section class="form-section resident-only" id="levies-section">
+          <h2>Medicare &amp; private health</h2>
+          <div class="field-grid two">
+            <label class="field checkbox-field span-2">
+              <input type="checkbox" name="saptoEligible" />
+              <span>Eligible for seniors &amp; pensioners tax offset (SAPTO) — Medicare levy reduction</span>
+            </label>
+            <label class="field checkbox-field span-2">
+              <input type="checkbox" name="hasHospitalCover" />
+              <span>I had appropriate private patient hospital cover all year</span>
+            </label>
+            <label class="field">
+              <span>MLS — family status</span>
+              <select name="mlsFamilyStatus">
+                <option value="single">Single</option>
+                <option value="family">Family</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>MLS — dependent children</span>
+              <input type="text" data-money="true" name="mlsDependentChildren" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <h2>Study loan</h2>
+          <label class="field checkbox-field">
+            <input type="checkbox" name="hasHelpDebt" />
+            <span>I have a HELP / VSL / SSL / TSL / SFSS debt (compulsory repayment)</span>
+          </label>
+        </section>
+
+        <section class="form-section highlight-section" id="payg-section">
+          <h2>Tax withheld &amp; credits</h2>
+          <p class="section-note">
+            From your payment summary (salary): <strong>Total tax withheld</strong>. Used with the estimate above to
+            calculate refund or amount owing. Updates automatically as you type.
+          </p>
+          <div class="field-grid two">
+            <label class="field">
+              <span>Tax withheld — salary &amp; wages (PAYG)</span>
+              <input type="text" data-money="true" name="paygWithheld" id="payg-withheld" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>Tax withheld — other income (optional)</span>
+              <input type="text" data-money="true" name="paygWithheldOther" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+            <label class="field">
+              <span>PAYG instalments paid</span>
+              <input type="text" data-money="true" name="paygInstalments" min="0" step="1" inputmode="numeric" placeholder="0" />
+            </label>
+          </div>
+        </section>
+      </form>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        <strong>Disclaimer:</strong> This tool produces an estimate only. It is not tax advice and is not
+        affiliated with the ATO. Calculations follow published ATO rates and simplified assumptions (e.g.
+        repayment income and MLS income equal taxable income; no prior-year losses, supplements, or zone
+        offsets). Confirm figures with the ATO or a registered tax agent before lodging.
+      </p>
+      <p class="sources">
+        Rates:
+        <a href="https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents" target="_blank" rel="noopener noreferrer">Residents</a>
+        ·
+        <a href="https://www.ato.gov.au/tax-rates-and-codes/tax-rates-foreign-residents" target="_blank" rel="noopener noreferrer">Foreign residents</a>
+        ·
+        <a href="https://www.ato.gov.au/Rates/HELP,-TSL-and-SFSS-repayment-thresholds-and-rates/" target="_blank" rel="noopener noreferrer">Study loans</a>
+      </p>
+    </footer>
+
+    <div class="side-fab-stack" aria-label="Tools">
+      <button
+        type="button"
+        class="side-fab side-fab--right side-fab--profiles"
+        id="profile-toggle"
+        aria-expanded="false"
+        aria-controls="profile-panel"
+      >
+        Profiles
+      </button>
+      <button
+        type="button"
+        class="side-fab side-fab--right"
+        id="prorata-toggle"
+        aria-expanded="false"
+        aria-controls="prorata-panel"
+      >
+        Prorata
+      </button>
+    </div>
+
+    <div class="side-backdrop" id="profile-backdrop" hidden></div>
+    <aside class="side-panel side-panel--right" id="profile-panel" aria-labelledby="profile-title" hidden>
+      <div class="side-panel-header">
+        <h2 id="profile-title">Profiles</h2>
+        <button type="button" class="side-panel-close" id="profile-close" aria-label="Close profiles">
+          &times;
+        </button>
+      </div>
+      <p class="side-panel-intro">Save scenarios locally and switch between them. Changes auto-save to the active profile.</p>
+      <label class="field">
+        <span>Active profile</span>
+        <select id="profile-select" aria-label="Switch profile"></select>
+      </label>
+      <div class="side-panel-actions">
+        <button type="button" class="btn-secondary" id="profile-save" title="Save current form to this profile">Save</button>
+        <button type="button" class="btn-secondary" id="profile-save-as" title="Save a copy as a new profile">Save as…</button>
+        <button type="button" class="btn-secondary" id="profile-new" title="Clear form and start a new profile">New</button>
+        <button type="button" class="btn-secondary btn-danger-text" id="profile-delete" title="Delete this profile">Delete</button>
+      </div>
+    </aside>
+
+    <div class="side-backdrop" id="prorata-backdrop" hidden></div>
+    <aside class="side-panel side-panel--right" id="prorata-panel" aria-labelledby="prorata-title" hidden>
+      <div class="side-panel-header">
+        <h2 id="prorata-title">Prorata helper</h2>
+        <button type="button" class="side-panel-close" id="prorata-close" aria-label="Close prorata helper">
+          &times;
+        </button>
+      </div>
+      <p class="side-panel-intro">
+        Annualise part-year amounts or add remaining pay runs, then apply the result to a form field.
+      </p>
+
+      <label class="field side-panel-target">
+        <span>Apply result to</span>
+        <select id="prorata-target"></select>
+      </label>
+
+      <div class="side-panel-body">
+        <div class="prorata-modes" role="radiogroup" aria-label="Calculation mode">
+        <label class="prorata-mode">
+          <input type="radio" name="prorataMode" value="scale" checked />
+          <span>Scale to full year</span>
+        </label>
+        <label class="prorata-mode">
+          <input type="radio" name="prorataMode" value="payruns" />
+          <span>Add pay periods</span>
+        </label>
+      </div>
+
+        <div class="prorata-mode-panel" id="prorata-scale-panel">
+          <p class="side-panel-note">e.g. rent or income for 11 months → estimate for 12 months.</p>
+        <label class="field">
+          <span>Amount to date</span>
+          <input type="text" data-money="true" id="prorata-scale-amount" inputmode="numeric" placeholder="0" />
+        </label>
+        <div class="field-grid two">
+          <label class="field">
+            <span>Periods elapsed</span>
+            <input type="number" id="prorata-scale-elapsed" min="1" step="1" value="11" />
+          </label>
+          <label class="field">
+            <span>Periods in full year</span>
+            <input type="number" id="prorata-scale-total" min="1" step="1" value="12" />
+          </label>
+        </div>
+      </div>
+
+        <div class="prorata-mode-panel" id="prorata-payruns-panel" hidden>
+          <p class="side-panel-note">e.g. YTD salary plus 3 more pays of $4,000.</p>
+        <label class="field">
+          <span>Amount so far</span>
+          <input type="text" data-money="true" id="prorata-pay-sofar" inputmode="numeric" placeholder="0" />
+        </label>
+        <div class="field-grid two">
+          <label class="field">
+            <span>More pay periods</span>
+            <input type="number" id="prorata-pay-count" min="0" step="1" value="3" />
+          </label>
+          <label class="field">
+            <span>Amount per period</span>
+            <input type="text" data-money="true" id="prorata-pay-each" inputmode="numeric" placeholder="0" />
+          </label>
+        </div>
+      </div>
+
+        <div class="prorata-result">
+          <span class="prorata-result-label">Estimated amount</span>
+          <output id="prorata-preview" class="prorata-result-value">$0</output>
+        </div>
+      </div>
+
+      <button type="button" class="btn-primary side-panel-apply" id="prorata-apply">Apply to field</button>
+    </aside>
+
+    <script src="js/rates.js"></script>
+    <script src="js/rental-properties.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/rental-ui.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/prorata.js"></script>
+  </body>
+</html>

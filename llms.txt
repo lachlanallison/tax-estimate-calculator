@@ -1,0 +1,29 @@
+# Australian Tax Estimate
+# https://lachlanallison.github.io/tax-estimate-calculator/
+
+> Static browser calculator for Australian individual income tax estimates using published ATO rates. Covers salary, investments, rental income, deductions, Medicare levy, MLS, HELP repayments, and PAYG. Not tax advice.
+
+## App
+- /
+
+## Calculator sections
+- Tax year and residency (Australian resident or foreign resident)
+- Income: salary, interest, franked/unfranked dividends, rental, other
+- Deductions: work-related, gifts, cost of managing tax affairs, other
+- Medicare levy surcharge (MLS) inputs
+- Study loan (HELP / VSL / SSL / TSL / SFSS) compulsory repayment
+- Tax withheld and credits (PAYG, instalments)
+- Saved profiles and pro-rata income helper (local browser storage)
+
+## Supported income years
+- 2022–23, 2023–24, 2024–25, 2025–26
+
+## Disclaimer
+- Estimate only; not affiliated with the ATO
+- Simplified assumptions (e.g. repayment income equals taxable income; no prior-year losses or zone offsets)
+- Confirm figures with the ATO or a registered tax agent before lodging
+
+## Rate sources
+- https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents
+- https://www.ato.gov.au/tax-rates-and-codes/tax-rates-foreign-residents
+- https://www.ato.gov.au/Rates/HELP,-TSL-and-SFSS-repayment-thresholds-and-rates/
