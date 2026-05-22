@@ -244,4 +244,26 @@ var TAX_YEARS = {
   },
 };
 
-var DEFAULT_TAX_YEAR = '2024-25';
+/**
+ * Australian income year runs 1 July – 30 June (e.g. 2025–26 = Jul 2025 – Jun 2026).
+ * Falls back to the newest supported year if the current FY is not yet in TAX_YEARS.
+ * @param {Date} [referenceDate]
+ */
+function getCurrentAustralianTaxYear(referenceDate) {
+  var d = referenceDate instanceof Date ? referenceDate : new Date();
+  var calendarYear = d.getFullYear();
+  var startYear = d.getMonth() >= 6 ? calendarYear : calendarYear - 1;
+  var endShort = String((startYear + 1) % 100).padStart(2, '0');
+  var key = startYear + '-' + endShort;
+
+  if (TAX_YEARS[key]) return key;
+
+  var keys = Object.keys(TAX_YEARS).sort();
+  if (!keys.length) return key;
+  if (key > keys[keys.length - 1]) return keys[keys.length - 1];
+  if (key < keys[0]) return keys[0];
+  return keys[keys.length - 1];
+}
+
+window.TAX_YEARS = TAX_YEARS;
+window.getCurrentAustralianTaxYear = getCurrentAustralianTaxYear;

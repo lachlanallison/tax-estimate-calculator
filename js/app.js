@@ -345,6 +345,10 @@
       initRentalProperties(rentalProps);
     }
 
+    if (!('taxYear' in data) && form.taxYear) {
+      form.taxYear.value = getCurrentAustralianTaxYear();
+    }
+
     autoOpenSectionsIfNeeded(data);
   }
 
@@ -378,7 +382,7 @@
       } else if (el.dataset.money === 'true') {
         el.value = '';
       } else if (el.tagName === 'SELECT') {
-        if (el.name === 'taxYear') el.value = '2024-25';
+        if (el.name === 'taxYear') el.value = getCurrentAustralianTaxYear();
         else if (el.name === 'residency') el.value = 'resident';
         else el.selectedIndex = 0;
       }

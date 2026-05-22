@@ -110,7 +110,9 @@ function calculateHelpRepayment(repaymentIncome, helpConfig) {
  * @param {Record<string, unknown>} raw
  */
 function calculateEstimate(raw) {
-  const taxYearKey = String(raw.taxYear || '2024-25');
+  const taxYearKey = String(
+    raw.taxYear || (typeof getCurrentAustralianTaxYear === 'function' ? getCurrentAustralianTaxYear() : '2024-25'),
+  );
   const year = TAX_YEARS[taxYearKey];
   if (!year) throw new Error(`Unknown tax year: ${taxYearKey}`);
 
